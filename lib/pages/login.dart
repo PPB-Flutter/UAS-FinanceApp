@@ -1,0 +1,112 @@
+import 'package:finance_app/style/colors.dart';
+import 'package:finance_app/widgets/ui/button.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/ui/input.dart';
+
+typedef LoginCallback = void Function(String, String);
+
+class Login extends StatefulWidget {
+  String? title;
+  LoginCallback? onLogin, onRegister;
+  Login({super.key, this.title, this.onLogin, this.onRegister});
+
+  @override
+  State<Login> createState() => _Login();
+}
+
+class _Login extends State<Login> {
+  Widget build(BuildContext context) {
+    var email = TextEditingController(text: "");
+    var password = TextEditingController(text: "");
+    return Scaffold(
+      backgroundColor: secondary,
+      body: SafeArea(
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 240,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 90),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 40),
+                            Text(
+                              widget.title!,
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w600,
+                                  color: white),
+                            ),
+                            SizedBox(height: 40)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              top: 280,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: white,
+                ),
+                height: 290,
+                width: 340,
+                child: Column(children: [
+                  SizedBox(height: 20),
+                  Input(
+                    label: "Email Address",
+                    controller: email,
+                  ),
+                  SizedBox(height: 20),
+                  Input(
+                    label: "Password",
+                    controller: password,
+                  ),
+                  SizedBox(height: 20),
+                  Button(
+                    label: "Login",
+                    width: 300,
+                    onTap: () {
+                      if (widget.onLogin != null)
+                        widget.onLogin!(email.text, password.text);
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  Button(
+                    label: "Register",
+                    width: 300,
+                    onTap: () {
+                      if (widget.onRegister != null)
+                        widget.onRegister!(email.text, password.text);
+                    },
+                  )
+                ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
