@@ -21,4 +21,4 @@
 2. Sebagai pengguna yang masuk, saya ingin data saya terupdate secara real-time di aplikasi ketika ada perubahan yang terjadi (seperti perubahan saldo atau transaksi).
 
 ## Sequence Diagram
-![](https://s.id/1XExj)
+<img src="https://s.id/1XExj" width="100%"/>
