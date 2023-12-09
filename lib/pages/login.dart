@@ -1,24 +1,42 @@
+import 'package:finance_app/controller/login_register.dart';
 import 'package:finance_app/style/colors.dart';
 import 'package:finance_app/widgets/ui/button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/ui/input.dart';
 
-typedef LoginCallback = void Function(String, String);
-
 class Login extends StatefulWidget {
   String? title;
-  LoginCallback? onLogin, onRegister;
-  Login({super.key, this.title, this.onLogin, this.onRegister});
+  LoginRegisterController? loginRegisterController;
+  BuildContext context;
+  GoRouterState state;
+  Login(this.context, this.state,
+      {super.key, this.title, this.loginRegisterController});
 
   @override
   State<Login> createState() => _Login();
 }
 
 class _Login extends State<Login> {
+  var email = TextEditingController(text: "");
+  var password = TextEditingController(text: "");
+  var hintEmail = false;
+  var hintPassword = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      if (widget.loginRegisterController != null) {
+        widget.loginRegisterController!.state = widget.state;
+        widget.loginRegisterController!.context = widget.context;
+      }
+    });
+  }
+
   Widget build(BuildContext context) {
-    var email = TextEditingController(text: "");
-    var password = TextEditingController(text: "");
     return Scaffold(
       backgroundColor: secondary,
       body: SafeArea(
@@ -77,19 +95,33 @@ class _Login extends State<Login> {
                   Input(
                     label: "Email Address",
                     controller: email,
+                    hint: hintEmail,
                   ),
                   SizedBox(height: 20),
                   Input(
                     label: "Password",
                     controller: password,
+                    hint: hintPassword,
                   ),
                   SizedBox(height: 20),
                   Button(
                     label: "Login",
                     width: 300,
                     onTap: () {
-                      if (widget.onLogin != null)
-                        widget.onLogin!(email.text, password.text);
+                      setState(() {
+                        if (email.text.trim() == "") {
+                          hintEmail = true;
+                          return;
+                        }
+                        if (password.text.trim() == "") {
+                          hintPassword = true;
+                          return;
+                        }
+                        if (widget.loginRegisterController != null)
+                          widget
+                            ..loginRegisterController!
+                                .loginCallback(email.text, password.text);
+                      });
                     },
                   ),
                   SizedBox(height: 10),
@@ -97,8 +129,20 @@ class _Login extends State<Login> {
                     label: "Register",
                     width: 300,
                     onTap: () {
-                      if (widget.onRegister != null)
-                        widget.onRegister!(email.text, password.text);
+                      setState(() {
+                        if (email.text.trim() == "") {
+                          hintEmail = true;
+                          return;
+                        }
+                        if (password.text.trim() == "") {
+                          hintPassword = true;
+                          return;
+                        }
+                        if (widget.loginRegisterController != null)
+                          widget
+                            ..loginRegisterController!
+                                .registerCallback(email.text, password.text);
+                      });
                     },
                   )
                 ]),

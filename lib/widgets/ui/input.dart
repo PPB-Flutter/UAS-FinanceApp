@@ -5,7 +5,8 @@ import 'package:finance_app/style/colors.dart';
 class Input extends StatefulWidget {
   TextEditingController? controller;
   String? label;
-  Input({super.key, this.label, this.controller});
+  bool hint = false;
+  Input({super.key, this.label, this.controller, this.hint = false});
 
   @override
   State<Input> createState() => _Input();
@@ -23,7 +24,8 @@ class _Input extends State<Input> {
           labelStyle: TextStyle(fontSize: 17, color: label),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(width: 2, color: border)),
+              borderSide:
+                  BorderSide(width: 2, color: widget.hint ? red : border)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(width: 2, color: primary)),

@@ -31,7 +31,7 @@ class _Button extends State<Button> {
         child: Text(
           widget.label!,
           style: TextStyle(
-            fontFamily: 'f',
+            fontFamily: 's',
             fontWeight: FontWeight.w600,
             color: white,
             fontSize: 17,
