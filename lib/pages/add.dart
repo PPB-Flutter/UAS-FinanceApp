@@ -39,7 +39,7 @@ class _AddState extends State<Add> {
             children: [
               Container(
                 width: double.infinity,
-                height: 240,
+                height: 150,
                 decoration: BoxDecoration(
                   color: primary,
                   borderRadius: BorderRadius.only(
@@ -55,7 +55,21 @@ class _AddState extends State<Add> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [SizedBox(height: 40)],
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "Adding Mamoney",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: white),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 40)
+                        ],
                       ),
                     )
                   ],
@@ -75,8 +89,16 @@ class _AddState extends State<Add> {
                 child: Column(children: [
                   SizedBox(height: 20),
                   Input(
+                    label: "Option",
+                  ),
+                  SizedBox(height: 20),
+                  Input(
                     label: "Explain",
-                  )
+                  ),
+                  SizedBox(height: 20),
+                  Input(
+                    label: "Date",
+                  ),
                 ]),
               ))
         ],

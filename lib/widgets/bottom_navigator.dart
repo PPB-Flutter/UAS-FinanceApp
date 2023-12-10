@@ -34,8 +34,9 @@ class _BottomState extends State<BottomNavigator> {
       body: setPage(widget.page),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {});
-          context.push<bool>(Uri(path: '/add').toString());
+          setState(() {
+            context.push<bool>(Uri(path: '/add').toString());
+          });
         },
         child: Icon(Icons.add),
         backgroundColor: primary,
