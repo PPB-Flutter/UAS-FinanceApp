@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'pages/dashboard.dart';
 import 'pages/login.dart';
+import 'pages/add.dart';
 
 // class RouteGenerator {
 //   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -37,6 +38,11 @@ final my_routers = GoRouter(
       path: "/dashboard",
       builder: (context, state) => BottomNavigator(context, state,
           dashboardController: dashboardController),
+    ),
+    GoRoute(
+      path: "/add",
+      builder: (context, state) =>
+          Add(context, state, dashboardController: dashboardController),
     ),
   ],
 );
