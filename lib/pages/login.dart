@@ -3,6 +3,7 @@ import 'package:finance_app/style/colors.dart';
 import 'package:finance_app/widgets/ui/button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/ui/input.dart';
 
@@ -19,6 +20,7 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   var email = TextEditingController(text: "");
   var password = TextEditingController(text: "");
   var hintEmail = false;
@@ -32,6 +34,48 @@ class _Login extends State<Login> {
       if (widget.loginRegisterController != null) {
         widget.loginRegisterController!.state = widget.state;
         widget.loginRegisterController!.context = widget.context;
+      }
+    });
+  }
+
+  void _login() {
+    setState(() async {
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email.text.trim(),
+          password: password.text.trim(),
+        );
+
+        print("Login successful: ${userCredential.user?.email}");
+
+        widget.loginRegisterController?.loginCallback(
+          email.text.trim(),
+          password.text.trim(),
+        );
+      } catch (e) {
+        print("Login failed: $e");
+        // Handle login failure (show error message, etc.)
+      }
+    });
+  }
+
+  void _register() {
+    setState(() async {
+      try {
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email.text.trim(),
+          password: password.text.trim(),
+        );
+
+        print("Registration successful: ${userCredential.user?.email}");
+
+        widget.loginRegisterController?.registerCallback(
+          email.text.trim(),
+          password.text.trim(),
+        );
+      } catch (e) {
+        print("Registration failed: $e");
+        // Handle registration failure (show error message, etc.)
       }
     });
   }
@@ -117,10 +161,7 @@ class _Login extends State<Login> {
                           hintPassword = true;
                           return;
                         }
-                        if (widget.loginRegisterController != null)
-                          widget
-                            ..loginRegisterController!
-                                .loginCallback(email.text, password.text);
+                        _login();
                       });
                     },
                   ),
@@ -138,10 +179,7 @@ class _Login extends State<Login> {
                           hintPassword = true;
                           return;
                         }
-                        if (widget.loginRegisterController != null)
-                          widget
-                            ..loginRegisterController!
-                                .registerCallback(email.text, password.text);
+                        _register();
                       });
                     },
                   )
