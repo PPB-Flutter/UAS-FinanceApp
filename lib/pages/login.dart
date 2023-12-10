@@ -62,7 +62,8 @@ class _Login extends State<Login> {
   void _register() {
     setState(() async {
       try {
-        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
           email: email.text.trim(),
           password: password.text.trim(),
         );
