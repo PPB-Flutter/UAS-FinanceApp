@@ -2,8 +2,10 @@
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginRegisterController {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLogin = true;
   bool get isLogin => _isLogin;
   bool get isRegister => !_isLogin;
@@ -17,21 +19,41 @@ class LoginRegisterController {
     _isLogin = value;
   }
 
-  void loginCallback(String email, String password) {
-    print("Login $email $password");
+  Future<void> loginCallback(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    dashboardController!.setBalance(10000);
-    dashboardController!.setEmail(email);
+      print("Login successful: ${userCredential.user?.email}");
 
-    context!.push<bool>(Uri(path: '/dashboard').toString());
+      dashboardController!.setBalance(10000);
+      dashboardController!.setEmail(email);
+
+      context!.push<bool>(Uri(path: '/dashboard').toString());
+    } catch (e) {
+      print("Login failed: $e");
+      // Handle login failure (show error message, etc.)
+    }
   }
 
-  void registerCallback(String email, String password) {
-    print("Register $email $password");
+  Future<void> registerCallback(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    dashboardController!.setBalance(40000);
-    dashboardController!.setEmail(email);
+      print("Registration successful: ${userCredential.user?.email}");
 
-    context!.push<bool>(Uri(path: '/dashboard').toString());
+      dashboardController!.setBalance(40000);
+      dashboardController!.setEmail(email);
+
+      context!.push<bool>(Uri(path: '/login').toString());
+    } catch (e) {
+      print("Registration failed: $e");
+      // Handle registration failure (show error message, etc.)
+    }
   }
 }
