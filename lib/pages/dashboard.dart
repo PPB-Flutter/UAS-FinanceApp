@@ -228,6 +228,37 @@ class _DashboardState extends State<Dashboard> {
                 ]),
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(top: 350), // Set the desired top margin
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: 100,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        // Handle the card click
+                        print('Card $index clicked');
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: label, // Border color
+                            width: 2.0, // Border width
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Border radius
+                        ),
+                        child: ListTile(
+                          title: Text('Item $index'),
+                          subtitle: Text('Subtitle $index'),
+                          trailing: Text('\$10.00'), // Replace with your amount
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
