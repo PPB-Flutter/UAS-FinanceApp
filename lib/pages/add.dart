@@ -75,7 +75,7 @@ class _AddState extends State<Add> {
                 child: Column(children: [
                   SizedBox(height: 20),
                   Input(
-                    label: "",
+                    label: "Explain",
                   )
                 ]),
               ))
