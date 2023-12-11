@@ -63,11 +63,12 @@ class _BottomState extends State<BottomNavigator> {
                 ),
               ),
               SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.page = 1;
-                  });
+              FloatingActionButton(
+                onPressed: () {
+                  // setState(() {
+                  //   widget.page = 1;
+                  // });
+                  context.goNamed('profil');
                 },
                 child: Icon(
                   Icons.logout,

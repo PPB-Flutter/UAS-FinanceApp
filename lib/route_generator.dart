@@ -46,6 +46,16 @@ final my_routers = GoRouter(
       builder: (context, state) =>
           Add(context, state, dashboardController: dashboardController),
     ),
+    GoRoute(
+      path: "/",
+      name: 'profil',
+      builder: (context, state) => Login(
+        context,
+        state,
+        title: "Mamoney",
+        loginRegisterController: loginRegisterController,
+      ),
+    ),
   ],
 );
     // errorBuilder: (context, state) => const ErrorPage(),
