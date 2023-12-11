@@ -34,162 +34,143 @@ class _Login extends State<Login> {
       if (widget.loginRegisterController != null) {
         widget.loginRegisterController!.state = widget.state;
         widget.loginRegisterController!.context = widget.context;
+        if (FirebaseAuth.instance.currentUser != null) {
+          context!.push<bool>(Uri(path: '/dashboard').toString());
+        }
       }
     });
   }
 
   void _login() {
     setState(() async {
-      try {
-        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: email.text.trim(),
-          password: password.text.trim(),
-        );
-
-        print("Login successful: ${userCredential.user?.email}");
-
-        widget.loginRegisterController?.loginCallback(
-          email.text.trim(),
-          password.text.trim(),
-        );
-      } catch (e) {
-        print("Login failed: $e");
-        // Handle login failure (show error message, etc.)
-      }
+      widget.loginRegisterController?.loginCallback(
+        email.text.trim(),
+        password.text.trim(),
+      );
     });
   }
 
   void _register() {
     setState(() async {
-      try {
-        UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
-          email: email.text.trim(),
-          password: password.text.trim(),
-        );
-
-        print("Registration successful: ${userCredential.user?.email}");
-
-        widget.loginRegisterController?.registerCallback(
-          email.text.trim(),
-          password.text.trim(),
-        );
-      } catch (e) {
-        print("Registration failed: $e");
-        // Handle registration failure (show error message, etc.)
-      }
+      widget.loginRegisterController?.registerCallback(
+        email.text.trim(),
+        password.text.trim(),
+      );
     });
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: secondary,
-      body: SafeArea(
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
-                  ),
-                  child: Column(
+    return FirebaseAuth.instance.currentUser != null
+        ? Column()
+        : Scaffold(
+            backgroundColor: secondary,
+            body: SafeArea(
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Column(
                     children: [
-                      SizedBox(height: 90),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Container(
+                        width: double.infinity,
+                        height: 240,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
+                          ),
+                        ),
+                        child: Column(
                           children: [
-                            SizedBox(height: 40),
-                            Text(
-                              widget.title!,
-                              style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.w600,
-                                  color: white),
-                            ),
-                            SizedBox(height: 40)
+                            SizedBox(height: 90),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 40),
+                                  Text(
+                                    widget.title!,
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.w600,
+                                        color: white),
+                                  ),
+                                  SizedBox(height: 40)
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 280,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: white,
-                ),
-                height: 290,
-                width: 340,
-                child: Column(children: [
-                  SizedBox(height: 20),
-                  Input(
-                    label: "Email Address",
-                    controller: email,
-                    hint: hintEmail,
+                  Positioned(
+                    top: 280,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: white,
+                      ),
+                      height: 290,
+                      width: 340,
+                      child: Column(children: [
+                        SizedBox(height: 20),
+                        Input(
+                          label: "Email Address",
+                          controller: email,
+                          hint: hintEmail,
+                        ),
+                        SizedBox(height: 20),
+                        Input(
+                          label: "Password",
+                          controller: password,
+                          hint: hintPassword,
+                        ),
+                        SizedBox(height: 20),
+                        Button(
+                          label: "Login",
+                          width: 300,
+                          onTap: () {
+                            setState(() {
+                              if (email.text.trim() == "") {
+                                hintEmail = true;
+                                return;
+                              }
+                              if (password.text.trim() == "") {
+                                hintPassword = true;
+                                return;
+                              }
+                              _login();
+                            });
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Button(
+                          label: "Register",
+                          width: 300,
+                          onTap: () {
+                            setState(() {
+                              if (email.text.trim() == "") {
+                                hintEmail = true;
+                                return;
+                              }
+                              if (password.text.trim() == "") {
+                                hintPassword = true;
+                                return;
+                              }
+                              _register();
+                            });
+                          },
+                        )
+                      ]),
+                    ),
                   ),
-                  SizedBox(height: 20),
-                  Input(
-                    label: "Password",
-                    controller: password,
-                    hint: hintPassword,
-                  ),
-                  SizedBox(height: 20),
-                  Button(
-                    label: "Login",
-                    width: 300,
-                    onTap: () {
-                      setState(() {
-                        if (email.text.trim() == "") {
-                          hintEmail = true;
-                          return;
-                        }
-                        if (password.text.trim() == "") {
-                          hintPassword = true;
-                          return;
-                        }
-                        _login();
-                      });
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  Button(
-                    label: "Register",
-                    width: 300,
-                    onTap: () {
-                      setState(() {
-                        if (email.text.trim() == "") {
-                          hintEmail = true;
-                          return;
-                        }
-                        if (password.text.trim() == "") {
-                          hintPassword = true;
-                          return;
-                        }
-                        _register();
-                      });
-                    },
-                  )
-                ]),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

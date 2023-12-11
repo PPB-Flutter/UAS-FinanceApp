@@ -12,6 +12,7 @@ class LoginRegisterController {
   BuildContext? context;
   GoRouterState? state;
   DashboardController? dashboardController;
+  String uid = "";
 
   LoginRegisterController({this.dashboardController});
 
@@ -28,6 +29,8 @@ class LoginRegisterController {
 
       print("Login successful: ${userCredential.user?.email}");
 
+      uid = userCredential.user?.uid ?? "";
+
       dashboardController!.setBalance(10000);
       dashboardController!.setEmail(email);
 
@@ -40,12 +43,15 @@ class LoginRegisterController {
 
   Future<void> registerCallback(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       print("Registration successful: ${userCredential.user?.email}");
+
+      uid = userCredential.user?.uid ?? "";
 
       dashboardController!.setBalance(40000);
       dashboardController!.setEmail(email);
