@@ -40,12 +40,21 @@ class _DashboardState extends State<Dashboard> {
             data = [];
             print(rows);
             rows?.docs.forEach((element) {
+              int type = element.data()["name"] == "Income" ? 1 : -1;
+
               if (index == 0) {
-                widget.dashboardController!.balance = element.data()["balance"];
-                widget.dashboardController!.income = element.data()["income"];
-                widget.dashboardController!.expenses =
-                    element.data()["expenses"];
+                widget.dashboardController!.balance = 0;
+                widget.dashboardController!.income = 0;
+                widget.dashboardController!.expenses = 0;
               }
+              widget.dashboardController!.balance +=
+                  (element.data()["amount"] as int) * type;
+              if (type == 1)
+                widget.dashboardController!.income +=
+                    (element.data()["amount"] as int);
+              else
+                widget.dashboardController!.expenses +=
+                    (element.data()["amount"] as int);
               data.add(element.data());
               print(element.data());
               index++;
@@ -168,7 +177,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Row(
                       children: [
                         Text(
-                          'Rp ${widget.dashboardController!.balance}',
+                          'Rp. ${widget.dashboardController!.balance}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
@@ -238,7 +247,7 @@ class _DashboardState extends State<Dashboard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Rp ${widget.dashboardController!.income}',
+                          'Rp. ${widget.dashboardController!.income}',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 17,
@@ -246,7 +255,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                         Text(
-                          'Rp ${widget.dashboardController!.expenses}',
+                          'Rp. ${widget.dashboardController!.expenses}',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 17,

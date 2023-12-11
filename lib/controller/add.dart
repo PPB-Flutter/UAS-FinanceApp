@@ -15,41 +15,14 @@ class AddController {
     var _amount = int.parse(amount);
     var _type = type == "Income" ? 1 : -1;
 
-    var last_balance = 0;
-    var last_income = 0;
-    var last_expenses = 0;
-
     try {
-      var last = await read_latest();
-
-      last?.docs.forEach((element) {
-        last_balance = element.data()["balance"] as int;
-        last_income = element.data()["income"] as int;
-        last_expenses = element.data()["expenses"] as int;
-
-        print("Transaction created successfully AA ${last_balance}");
-      });
+      await create(type, date, _amount, note);
     } catch (e) {
       print(e);
     }
-
-    last_balance += _amount * _type;
-    if (_type == 1)
-      last_income += _amount;
-    else
-      last_expenses += _amount;
-
-    print("Transaction created successfully AA");
-
-    try {
-      await create(
-          type, date, _amount, last_balance, last_income, last_expenses, note);
-    } catch (e) {}
-    print("Transaction created successfully VBBB");
   }
 
-  Future<void> create(String name, String date, int amount, int balance,
-      int income, int expenses, String note) async {
+  Future<void> create(String name, String date, int amount, String note) async {
     // ini create
     try {
       await transactions.add({
@@ -58,19 +31,15 @@ class AddController {
         "name": name,
         "date": date,
         "amount": amount,
-        "balance": balance,
-        "income": income,
-        "expenses": expenses,
         "note": note,
       });
     } catch (e) {
       print(e);
     }
-    print("Transaction created successfully");
   }
 
-  Future<void> update(String id, String name, String date, int amount,
-      int balance, int income, int expenses, String note) async {
+  Future<void> update(
+      String id, String name, String date, int amount, String note) async {
     // ini update
     try {
       await transactions.doc(id).update({
@@ -78,9 +47,6 @@ class AddController {
         "name": name,
         "date": date,
         "amount": amount,
-        "balance": balance,
-        "income": income,
-        "expenses": expenses,
         "note": note,
       });
     } catch (e) {
