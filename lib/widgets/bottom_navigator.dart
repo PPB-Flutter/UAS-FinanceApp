@@ -40,7 +40,7 @@ class _BottomState extends State<BottomNavigator> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            context.push<bool>(Uri(path: '/add').toString());
+            context.push<bool>(Uri(path: '/add/null').toString());
           });
         },
         child: Icon(Icons.add),

@@ -29,6 +29,8 @@ class _AddState extends State<Add> {
   bool hintAmount = false;
   bool hintDate = false;
   bool hintNote = false;
+  bool update_mode = false;
+  String id = "";
 
   @override
   void initState() {
@@ -38,6 +40,20 @@ class _AddState extends State<Add> {
       if (widget.dashboardController != null) {
         widget.dashboardController!.state = widget.state;
         widget.dashboardController!.context = widget.context;
+        widget.state.pathParameters.forEach((key, value) {
+          if (key == "id" && value != "null") {
+            update_mode = true;
+            id = value;
+            widget.addController!.read(id).then((row) {
+              if (row != null) {
+                _selectedOption = row['name'];
+                amount.text = row['amount'].toString();
+                date.text = row['date'];
+                note.text = row['note'];
+              }
+            });
+          }
+        });
       }
     });
   }
@@ -74,7 +90,7 @@ class _AddState extends State<Add> {
                           Column(
                             children: [
                               Text(
-                                "Adding Mamoney",
+                                update_mode ? "Edit Mamoney" : "Adding Mamoney",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 40,
@@ -92,6 +108,17 @@ class _AddState extends State<Add> {
               )
             ],
           ),
+          Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: white,
+                  ))),
           Positioned(
               top: 280,
               child: Container(
@@ -133,7 +160,7 @@ class _AddState extends State<Add> {
                   ),
                   SizedBox(height: 20),
                   Button(
-                    label: "Add",
+                    label: !update_mode ? "Add" : "Save",
                     width: 300,
                     onTap: () {
                       setState(() {
@@ -152,15 +179,36 @@ class _AddState extends State<Add> {
                           return;
                         }
 
-                        widget.addController!
-                            .addCallback(_selectedOption, amount.text,
-                                date.text, note.text)
-                            .then((value) => context.push<bool>(
-                                Uri(path: '/dashboard').toString()));
+                        if (update_mode)
+                          widget.addController!
+                              .update(id, _selectedOption, date.text,
+                                  int.parse(amount.text), note.text)
+                              .then((value) => context.push<bool>(
+                                  Uri(path: '/dashboard').toString()));
+                        else
+                          widget.addController!
+                              .addCallback(_selectedOption, amount.text,
+                                  date.text, note.text)
+                              .then((value) => context.push<bool>(
+                                  Uri(path: '/dashboard').toString()));
                       });
                     },
                   ),
                   SizedBox(height: 20),
+                  if (update_mode)
+                    Button(
+                      label: "Delete",
+                      width: 300,
+                      color: red,
+                      onTap: () {
+                        setState(() {
+                          widget.addController!.delete(id).then((value) =>
+                              context.push<bool>(
+                                  Uri(path: '/dashboard').toString()));
+                        });
+                      },
+                    ),
+                  if (update_mode) SizedBox(height: 20),
                 ]),
               ))
         ],

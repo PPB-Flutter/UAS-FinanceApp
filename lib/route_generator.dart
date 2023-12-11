@@ -47,7 +47,7 @@ final my_routers = GoRouter(
           addController: addController),
     ),
     GoRoute(
-      path: "/add",
+      path: "/add/:id",
       builder: (context, state) => Add(context, state,
           dashboardController: dashboardController,
           addController: addController),

@@ -28,7 +28,6 @@ class LoginRegisterController {
 
       print("Login successful: ${userCredential.user?.email}");
 
-      dashboardController!.setBalance(10000);
       dashboardController!.setEmail(email);
 
       context?.push<bool>(Uri(path: '/dashboard').toString());
@@ -48,10 +47,9 @@ class LoginRegisterController {
 
       print("Registration successful: ${userCredential.user?.email}");
 
-      dashboardController!.setBalance(40000);
       dashboardController!.setEmail(email);
 
-      context?.push<bool>(Uri(path: '/login').toString());
+      context?.push<bool>(Uri(path: '/dashboard').toString());
     } catch (e) {
       print("Registration failed: $e");
       // Handle registration failure (show error message, etc.)

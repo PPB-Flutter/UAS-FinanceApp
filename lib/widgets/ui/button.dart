@@ -10,8 +10,14 @@ class Button extends StatefulWidget {
   ButtonCallback? onTap;
   double height;
   double width;
+  Color? color;
   Button(
-      {super.key, this.label, this.onTap, this.width = 120, this.height = 50});
+      {super.key,
+      this.label,
+      this.color,
+      this.onTap,
+      this.width = 120,
+      this.height = 50});
 
   @override
   State<Button> createState() => _Button();
@@ -25,7 +31,7 @@ class _Button extends State<Button> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: primary,
+          color: widget.color ?? primary,
         ),
         width: widget.width,
         height: widget.height,

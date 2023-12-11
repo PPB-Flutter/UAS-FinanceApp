@@ -55,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
               else
                 widget.dashboardController!.expenses +=
                     (element.data()["amount"] as int);
-              data.add(element.data());
+              data.add({...(element.data()), "id": element.id});
               print(element.data());
               index++;
             });
@@ -276,8 +276,9 @@ class _DashboardState extends State<Dashboard> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
-                        // Handle the card click
-                        print('Card $index clicked');
+                        context.push<bool>(Uri(
+                          path: '/add/${data[index]['id']}',
+                        ).toString());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
