@@ -106,7 +106,7 @@ class _AddState extends State<Add> {
                   ),
                   SizedBox(height: 20),
                   Button(
-                    label: "Save",
+                    label: "Add",
                     width: 300,
                     onTap: () {
                       setState(() {});
