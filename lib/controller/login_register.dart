@@ -5,14 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginRegisterController {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth get _auth => FirebaseAuth.instance;
   bool _isLogin = true;
   bool get isLogin => _isLogin;
   bool get isRegister => !_isLogin;
   BuildContext? context;
   GoRouterState? state;
   DashboardController? dashboardController;
-  String uid = "";
 
   LoginRegisterController({this.dashboardController});
 
@@ -29,12 +28,10 @@ class LoginRegisterController {
 
       print("Login successful: ${userCredential.user?.email}");
 
-      uid = userCredential.user?.uid ?? "";
-
       dashboardController!.setBalance(10000);
       dashboardController!.setEmail(email);
 
-      context!.push<bool>(Uri(path: '/dashboard').toString());
+      context?.push<bool>(Uri(path: '/dashboard').toString());
     } catch (e) {
       print("Login failed: $e");
       // Handle login failure (show error message, etc.)
@@ -51,12 +48,10 @@ class LoginRegisterController {
 
       print("Registration successful: ${userCredential.user?.email}");
 
-      uid = userCredential.user?.uid ?? "";
-
       dashboardController!.setBalance(40000);
       dashboardController!.setEmail(email);
 
-      context!.push<bool>(Uri(path: '/login').toString());
+      context?.push<bool>(Uri(path: '/login').toString());
     } catch (e) {
       print("Registration failed: $e");
       // Handle registration failure (show error message, etc.)

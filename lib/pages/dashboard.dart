@@ -1,3 +1,4 @@
+import 'package:finance_app/controller/add.dart';
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:finance_app/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +9,17 @@ class Dashboard extends StatefulWidget {
   GoRouterState state;
   BuildContext context;
   DashboardController? dashboardController;
-  Dashboard(this.context, this.state, {super.key, this.dashboardController});
+  AddController? addController;
+  Dashboard(this.context, this.state,
+      {super.key, this.dashboardController, this.addController});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<Map<String, dynamic>> data = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,6 +30,31 @@ class _DashboardState extends State<Dashboard> {
         widget.dashboardController!.context = widget.context;
       }
     });
+
+    if (widget.addController != null) {
+      try {
+        widget.addController?.readAll().then((rows) {
+          setState(() {
+            int index = 0;
+            data = [];
+            print(rows);
+            rows?.docs.forEach((element) {
+              if (index == 0) {
+                widget.dashboardController!.balance = element.data()["balance"];
+                widget.dashboardController!.income = element.data()["income"];
+                widget.dashboardController!.expenses =
+                    element.data()["expenses"];
+              }
+              data.add(element.data());
+              print(element.data());
+              index++;
+            });
+          });
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   @override
@@ -232,7 +262,7 @@ class _DashboardState extends State<Dashboard> {
               margin: EdgeInsets.only(top: 350), // Set the desired top margin
               child: Expanded(
                 child: ListView.builder(
-                  itemCount: 100,
+                  itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
@@ -249,9 +279,23 @@ class _DashboardState extends State<Dashboard> {
                               BorderRadius.circular(10.0), // Border radius
                         ),
                         child: ListTile(
-                          title: Text('Item $index'),
-                          subtitle: Text('Subtitle $index'),
-                          trailing: Text('\$10.00'), // Replace with your amount
+                          title: Text(
+                            data[index]['name'],
+                            style: TextStyle(
+                                color: (data[index]['name'] == "Income"
+                                    ? black
+                                    : red)),
+                          ),
+                          subtitle: Text(data[index]['date']),
+                          trailing: Text(
+                            "Rp. " +
+                                (data[index]['name'] == "Income" ? "+" : "-") +
+                                data[index]['amount'].toString(),
+                            style: TextStyle(
+                                color: (data[index]['name'] == "Income"
+                                    ? black
+                                    : red)),
+                          ), // Replace with your amount
                         ),
                       ),
                     );

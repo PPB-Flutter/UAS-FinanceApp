@@ -1,3 +1,4 @@
+import 'package:finance_app/controller/add.dart';
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:finance_app/controller/login_register.dart';
 import 'package:finance_app/widgets/bottom_navigator.dart';
@@ -23,6 +24,8 @@ DashboardController dashboardController = DashboardController();
 LoginRegisterController loginRegisterController =
     LoginRegisterController(dashboardController: dashboardController);
 
+AddController addController = AddController();
+
 final my_routers = GoRouter(
   routes: [
     GoRoute(
@@ -37,12 +40,14 @@ final my_routers = GoRouter(
     GoRoute(
       path: "/dashboard",
       builder: (context, state) => BottomNavigator(context, state,
-          dashboardController: dashboardController),
+          dashboardController: dashboardController,
+          addController: addController),
     ),
     GoRoute(
       path: "/add",
-      builder: (context, state) =>
-          Add(context, state, dashboardController: dashboardController),
+      builder: (context, state) => Add(context, state,
+          dashboardController: dashboardController,
+          addController: addController),
     ),
   ],
 );

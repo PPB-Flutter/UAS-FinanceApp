@@ -20,7 +20,6 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
   var email = TextEditingController(text: "");
   var password = TextEditingController(text: "");
   var hintEmail = false;

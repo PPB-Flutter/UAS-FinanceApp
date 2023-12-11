@@ -1,6 +1,8 @@
+import 'package:finance_app/controller/add.dart';
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:finance_app/pages/dashboard.dart';
 import 'package:finance_app/style/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,9 +11,10 @@ class BottomNavigator extends StatefulWidget {
   GoRouterState state;
   BuildContext context;
   DashboardController? dashboardController;
+  AddController? addController;
 
   BottomNavigator(this.context, this.state,
-      {super.key, this.page = 0, this.dashboardController});
+      {super.key, this.page = 0, this.dashboardController, this.addController});
 
   @override
   State<BottomNavigator> createState() => _BottomState();
@@ -22,7 +25,8 @@ class _BottomState extends State<BottomNavigator> {
     switch (page) {
       case 0:
         return Dashboard(widget.context, widget.state,
-            dashboardController: widget.dashboardController);
+            dashboardController: widget.dashboardController,
+            addController: widget.addController);
       default:
         return Center();
     }
@@ -64,8 +68,11 @@ class _BottomState extends State<BottomNavigator> {
               SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    widget.page = 1;
+                  setState(() async {
+                    FirebaseAuth auth = FirebaseAuth.instance;
+                    // Logout the user
+                    await auth.signOut();
+                    context.push<bool>(Uri(path: '/').toString());
                   });
                 },
                 child: Icon(
