@@ -68,7 +68,7 @@ class _BottomState extends State<BottomNavigator> {
                   // setState(() {
                   //   widget.page = 1;
                   // });
-                  context.goNamed('profil');
+                  context.goNamed('login');
                 },
                 child: Icon(
                   Icons.logout,
