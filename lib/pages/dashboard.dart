@@ -119,7 +119,8 @@ class _DashboardState extends State<Dashboard> {
                             Column(
                               children: [
                                 Text(
-                                  widget.dashboardController!.email,
+                                  widget.addController!.user.email ??
+                                      "Dashboard",
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
