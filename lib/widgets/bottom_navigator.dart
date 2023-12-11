@@ -69,7 +69,7 @@ class _BottomState extends State<BottomNavigator> {
                   });
                 },
                 child: Icon(
-                  Icons.person_outlined,
+                  Icons.logout,
                   size: 30,
                   color: widget.page == 1 ? primary : label,
                 ),

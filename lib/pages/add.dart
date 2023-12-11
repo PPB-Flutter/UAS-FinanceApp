@@ -1,5 +1,6 @@
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:finance_app/style/colors.dart';
+import 'package:finance_app/widgets/ui/button.dart';
 import 'package:finance_app/widgets/ui/input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -84,7 +85,7 @@ class _AddState extends State<Add> {
                   borderRadius: BorderRadius.circular(20),
                   color: white,
                 ),
-                height: 290,
+                height: 380,
                 width: 340,
                 child: Column(children: [
                   SizedBox(height: 20),
@@ -93,11 +94,23 @@ class _AddState extends State<Add> {
                   ),
                   SizedBox(height: 20),
                   Input(
-                    label: "Explain",
+                    label: "Amount",
                   ),
                   SizedBox(height: 20),
                   Input(
                     label: "Date",
+                  ),
+                  SizedBox(height: 20),
+                  Input(
+                    label: "Note",
+                  ),
+                  SizedBox(height: 20),
+                  Button(
+                    label: "Save",
+                    width: 300,
+                    onTap: () {
+                      setState(() {});
+                    },
                   ),
                 ]),
               ))
