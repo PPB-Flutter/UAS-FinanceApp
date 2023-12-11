@@ -2,8 +2,10 @@ import 'package:finance_app/controller/add.dart';
 import 'package:finance_app/controller/dashboard.dart';
 import 'package:finance_app/controller/login_register.dart';
 import 'package:finance_app/widgets/bottom_navigator.dart';
+// ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+// ignore: unused_import
 import 'pages/dashboard.dart';
 import 'pages/login.dart';
 import 'pages/add.dart';
@@ -30,6 +32,7 @@ final my_routers = GoRouter(
   routes: [
     GoRoute(
       path: "/",
+      name: 'login',
       builder: (context, state) => Login(
         context,
         state,

@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/ui/input.dart';
 
+// ignore: must_be_immutable
 class Login extends StatefulWidget {
   String? title;
   LoginRegisterController? loginRegisterController;
@@ -34,7 +35,7 @@ class _Login extends State<Login> {
         widget.loginRegisterController!.state = widget.state;
         widget.loginRegisterController!.context = widget.context;
         if (FirebaseAuth.instance.currentUser != null) {
-          context!.push<bool>(Uri(path: '/dashboard').toString());
+          context.push<bool>(Uri(path: '/dashboard').toString());
         }
       }
     });

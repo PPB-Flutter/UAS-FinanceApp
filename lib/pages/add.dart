@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router/src/state.dart';
 
+// ignore: must_be_immutable
 class Add extends StatefulWidget {
   GoRouterState state;
   BuildContext context;
@@ -132,7 +133,7 @@ class _AddState extends State<Add> {
                   ),
                   SizedBox(height: 20),
                   Button(
-                    label: "Save",
+                    label: "Add",
                     width: 300,
                     onTap: () {
                       setState(() {

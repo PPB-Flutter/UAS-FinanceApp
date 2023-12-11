@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 typedef ButtonCallback = void Function();
 
+// ignore: must_be_immutable
 class Button extends StatefulWidget {
   String? label;
   ButtonCallback? onTap;
