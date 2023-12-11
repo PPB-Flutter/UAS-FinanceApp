@@ -20,6 +20,7 @@ class _Input extends State<Input> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
         controller: widget.controller,
+        obscureText: widget.label == "Password",
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           labelText: widget.label,
